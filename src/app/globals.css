@@ -5,10 +5,12 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
 }
 
 /* Remove default cursor on desktop for custom cursor */
