@@ -1,70 +1,79 @@
 "use client";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ThemeToggle } from "../theme-toggle";
-import { Menu, X } from "lucide-react"; // You may use Heroicons or Lucide icons
+import { Menu, X } from "lucide-react";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const toggleMenu = () => setIsOpen(!isOpen);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const navLinks = [
     { href: "#about", label: "about." },
     { href: "#projects", label: "projects." },
-    // { href: "#gallery", label: "gallery." },
+    { href: "#skills", label: "skills." },
     { href: "#contact", label: "contact." },
   ];
 
   return (
-    <nav className="p-4 px-6 md:px-20 sticky top-0 z-50 backdrop-blur-3xl bg-white/30 dark:bg-black/20 shadow-md transition-colors duration-300">
+    <nav
+      className={`sticky top-0 z-50 transition-all duration-500 px-6 sm:px-10 lg:px-20
+        ${scrolled
+          ? "py-3 backdrop-blur-2xl bg-white/70 dark:bg-[#0e0e0e]/80 shadow-sm border-b border-gray-200/50 dark:border-white/5"
+          : "py-5 bg-transparent"
+        }`}
+    >
       <div className="max-w-screen-xl mx-auto flex justify-between items-center">
         {/* Logo */}
-        <Link href="/" className="text-lg font-bold tracking-widest">
-          markndrei.
+        <Link href="/" className="text-lg font-black tracking-widest text-gray-800 dark:text-[#FFFFF4]">
+          mark<span className="text-[#80CEFF]">ndrei</span>
+          <span className="text-[#F7B2FD]">.</span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-14 font-light">
+        {/* Desktop nav */}
+        <div className="hidden md:flex items-center gap-10 text-sm font-light">
           {navLinks.map((link) => (
             <Link
               key={link.label}
               href={link.href}
-              className="relative group transition-colors duration-300 hover:text-red-500 dark:hover:text-blue-300"
+              className="relative group text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
             >
               {link.label}
-              <span className="absolute left-0 -bottom-1 w-0 h-[1px] bg-current transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-gradient-to-r from-[#80CEFF] to-[#F7B2FD] transition-all duration-300 group-hover:w-full" />
             </Link>
           ))}
         </div>
 
-        {/* Theme Toggle + Mobile Hamburger */}
-        <div className="flex items-center space-x-4 md:space-x-6">
+        <div className="flex items-center gap-4">
           <ThemeToggle />
           <button
-            className="md:hidden focus:outline-none"
-            onClick={toggleMenu}
+            className="md:hidden"
+            onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+            {isOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       <div
-        className={`md:hidden transition-all duration-300 ease-in-out ${
-          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0 overflow-hidden"
-        }`}
+        className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden
+          ${isOpen ? "max-h-60 opacity-100 pt-4 pb-2" : "max-h-0 opacity-0"}`}
       >
-        <div className="flex flex-col items-start px-6 pt-4 pb-2 space-y-4 font-light text-sm">
+        <div className="flex flex-col gap-4 px-2 text-sm font-light">
           {navLinks.map((link) => (
             <Link
               key={link.label}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="w-full transition-colors duration-300 hover:text-red-500 dark:hover:text-blue-300"
+              className="text-gray-600 dark:text-gray-300 hover:text-[#80CEFF] transition-colors duration-200"
             >
               {link.label}
             </Link>
