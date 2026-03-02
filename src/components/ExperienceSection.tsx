@@ -443,7 +443,7 @@ export default function ExperienceSection() {
       });
     };
 
-    const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    const onPointerUp = () => {
       if (!ds.dragging) return;
       ds.dragging = false;
 
