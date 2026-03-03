@@ -22,7 +22,11 @@ const devProjects: DevProject[] = [
   { title: "Jinjaroos HCI", subtitle: "Group Website",                  description: "Website for the interdisciplinary HCI team behind IPSYNC — particle animations, human-centered interactions, and a compelling team presence.",                                                                                                                       image: "/hci-group.png",  link: "https://hci-group-website.vercel.app",                                                                                      tags: ["React", "Next.js", "Particles", "Animation"],         accent: "#11BA0F" },
   { title: "Rekom",         subtitle: "Movie Recommendation System",    description: "Hybrid ML recommendation engine combining collaborative filtering, content-based filtering, and NLP for personalized movie suggestions that address the cold-start problem.",                                                                                         image: "/rekom.png",      link: "https://github.com/Markndrei/CCS-230-Final-Project",                                                                                tags: ["Python", "ML", "NLP", "Data Mining"],                 accent: "#E0790B" },
   { title: "Sentisize",     subtitle: "Emotion Group Analysis",         description: "Web app extracting emotional sentiments from text via SVM and NLP, visualizing collective mood trends across groups for academic research in data mining.",                                                                                                          image: "/sentisize.png",  link: "https://github.com/Markndrei/Data-Mining",                                                                                          tags: ["SVM", "Sentiment", "NLP", "Fullstack"],               accent: "#EFE00A" },
-  { title: "WVSUTRACK",     subtitle: "Fundays Scoreboard Tracker",     description: "Real-time scoreboard tracker for WVSU Fundays events — delivering live score updates and rankings to enhance the event experience for participants and spectators.",                                                                                                 image: "/wvsu-track.png", link: "https://www.figma.com/design/fVxJ9MQYoEsS6uGfAKW5tj/WVSU-FUNDAYS-REAL-TIME-SCOREBOARD?node-id=0-1",                           tags: ["Figma", "UI/UX", "Prototyping"],                      accent: "#11BA0F" },
+  { title: "WVSUTRACK",     subtitle: "Fundays Scoreboard Tracker",     description: "Real-time scoreboard tracker for WVSU Fundays events — delivering live score updates and rankings to enhance the event experience for participants and spectators.",                                                                                              image: "/wvsu-track.png", link: "https://www.figma.com/design/fVxJ9MQYoEsS6uGfAKW5tj/WVSU-FUNDAYS-REAL-TIME-SCOREBOARD?node-id=0-1",                           tags: ["Figma", "UI/UX", "Prototyping"],                      accent: "#E0790B" },
+  { title: "CICT WEBSITE",     subtitle: "Official CICT Website",     description: "The official website of WVSU-CICT that contains synopsis, programs offered, and faculty directory that helps enrollees and other individuals know more about the college.",                                                                                                image: "/cict-website.png", link: "#",                           tags: ["Figma", "UI/UX", "Prototyping"],                      accent: "#11BA0F" },
+  { title: "Caffeinated Spaces",     subtitle: "Iloilo City Coffee Shops Hub",     description: "Curation of different coffee shops within Iloilo, it scopes within the seven (7) region of the Iloilo City, featuring 13 coffee shops.",                                                                                                image: "/caffeinated-spaces.png", link: "https://caffeinatedspaces.vercel.app",                           tags: ["Figma", "UI/UX", "Prototyping", "Next.js", "Tailwind CSS"],                      accent: "#11BA0F" },
+  { title: "WVSU RE:Claim",     subtitle: "WVSU Official Lost and Found System",     description: "This serves as the official lost and found hub for WVSU learners, allowing them to post lost or found items for claiming.",                                                                                                image: "/wvsu-track.png", link: "#",                           tags: ["Figma", "UI/UX", "Prototyping"],                      accent: "#11BA0F" },
+  { title: "DOST Project Visualization",     subtitle: "Nationwide DOST Projects Visualization",     description: "This contains the projects that DOST have from 1976 to the present, providing an information dashboard for project tracking and transparency.",                                                                                                image: "/kantonize.png", link: "#",                           tags: ["React", "Tailwind", "Node", "Clean Architecture", "Redux"],                      accent: "#E0790B" },
 ];
 
 const designCards: DesignCard[] = [
@@ -425,17 +429,24 @@ function DesignCardFace({ card, scale = 1 }: { card: DesignCard; scale?: number 
 
 // ── Scatter ────────────────────────────────────────────────────────────────────
 function scatter(idx: number, total: number, W: number, H: number, cW: number, cH: number) {
-  const cols  = Math.ceil(Math.sqrt(total));
-  const rows  = Math.ceil(total / cols);
-  const col   = idx % cols;
-  const row   = Math.floor(idx / cols);
-  const cellW = (W - cW) / Math.max(cols - 1, 1);
-  const cellH = (H - cH) / Math.max(rows - 1, 1);
-  const jx    = ((idx * 127 + 31) % 60) - 30;
-  const jy    = ((idx * 89  + 23) % 44) - 22;
-  const rot   = ((idx * 47  +  7) % 20) - 10;
-  const x     = Math.max(8, Math.min(col * cellW + jx, W - cW - 8));
-  const y     = Math.max(8, Math.min(row * cellH + jy, H - cH - 8));
+  const golden = 2.399963; // golden angle in radians
+  const angle  = idx * golden;
+  
+  // Spiral radius grows with index, scaled to fit container
+  const maxR   = Math.min(W - cW, H - cH) * 0.38;
+  const r      = (idx === 0 ? 0 : maxR * Math.sqrt((idx + 0.5) / total));
+  
+  const cx = (W - cW) / 2;
+  const cy = (H - cH) / 2;
+  
+  // Slight deterministic jitter per card
+  const jx  = ((idx * 127 + 31) % 40) - 20;
+  const jy  = ((idx * 89  + 23) % 32) - 16;
+  const rot = ((idx * 47  +  7) % 24) - 12;
+
+  const x = Math.round(Math.max(8, Math.min(cx + Math.cos(angle) * r + jx, W - cW - 8)));
+  const y = Math.round(Math.max(8, Math.min(cy + Math.sin(angle) * r + jy, H - cH - 8)));
+
   return { x, y, rot };
 }
 
@@ -676,7 +687,8 @@ export default function ProjectsSection() {
 
   const DEV_W       = Math.round(DEV_BASE.w * sc);
   const DEV_H       = Math.round((DEV_BASE.imgH + DEV_BASE.contentH) * sc);
-  const DEV_TABLE_H = Math.round(DEV_H * rows + 48);
+  const devRowCount = Math.ceil(devProjects.length / Math.ceil(Math.sqrt(devProjects.length)));
+  const DEV_TABLE_H = Math.round(DEV_H * devRowCount * 1.15 + 48);
 
   const DES_W       = Math.round(DES_BASE.w * sc);
   const DES_H       = Math.round((DES_BASE.imgH + DES_BASE.contentH) * sc);
