@@ -26,10 +26,10 @@ export default function HeroSection({ animate }: HeroSectionProps) {
     const onMove = (e: MouseEvent) => {
       const rect = section.getBoundingClientRect();
       gsap.to(blobRef.current, {
-        x: e.clientX - rect.left - 200,
-        y: e.clientY - rect.top - 200,
-        duration: 1.2,
-        ease: "power3.out",
+        x: e.clientX - rect.left - 200,  // -200 = half of 400px blob → centers on cursor
+        y: e.clientY - rect.top  - 200,
+        duration: 0.3,                    // slight lag, not instant
+        ease: "power2.out",
       });
     };
     section.addEventListener("mousemove", onMove);
@@ -82,14 +82,32 @@ export default function HeroSection({ animate }: HeroSectionProps) {
       className="relative flex flex-col-reverse items-center justify-center min-h-screen gap-8 px-6 sm:px-10 md:flex-row md:gap-16 lg:gap-24 overflow-hidden"
     >
       {/*
-        Blob: light = green/yellow, dark = blue/pink
-        Using two overlapping divs toggled by CSS — no JS theme check = no hydration mismatch
+        Blob opacity reduced from 20 → 10 (light) and pulse replaced with
+        a slower CSS animation via inline style to reduce harshness
       */}
-      <div ref={blobRef} className="pointer-events-none absolute w-[400px] h-[400px] rounded-full opacity-20 blur-[80px]">
-        {/* Light mode blob */}
-        <div className="absolute inset-0 rounded-full dark:opacity-0 transition-opacity duration-500" style={{ background: "radial-gradient(circle, #11BA0F 0%, #EFE00A 100%)" }} />
-        {/* Dark mode blob */}
-        <div className="absolute inset-0 rounded-full opacity-0 dark:opacity-100 transition-opacity duration-500" style={{ background: "radial-gradient(circle, #80CEFF 0%, #F7B2FD 100%)" }} />
+      <div
+        ref={blobRef}
+        className="pointer-events-none absolute w-[400px] h-[400px] rounded-full blur-[100px]"
+        style={{ opacity: 0 }} // starts invisible, GSAP positions it before first mousemove
+      >
+        {/* Light mode blob — softer opacity, slower pulse */}
+        <div
+          className="absolute inset-0 rounded-full dark:opacity-0 transition-opacity duration-500"
+          style={{
+            background: "radial-gradient(circle, #11BA0F 0%, #EFE00A 100%)",
+            opacity: 0.10,
+            animation: "pulse 4s ease-in-out infinite",
+          }}
+        />
+        {/* Dark mode blob — softer opacity, slower pulse */}
+        <div
+          className="absolute inset-0 rounded-full opacity-0 dark:opacity-100 transition-opacity duration-500"
+          style={{
+            background: "radial-gradient(circle, #80CEFF 0%, #F7B2FD 100%)",
+            opacity: 0,
+            animation: "pulse 4s ease-in-out infinite",
+          }}
+        />
       </div>
 
       {/* Subtle grid */}
@@ -131,14 +149,12 @@ export default function HeroSection({ animate }: HeroSectionProps) {
         </a>
       </div>
 
-      {/* Hero Image — always renders same markup, theme handled by next-themes body class */}
+      {/* Hero Image */}
       <div ref={imageRef} className="relative z-10 opacity-0 flex-shrink-0">
         <div className="relative">
-          {/* Glow ring — CSS only, no JS theme check */}
           <div className="absolute inset-[-10px] rounded-full opacity-5 blur-2xl animate-pulse dark:opacity-0 transition-opacity duration-500" style={{ background: "radial-gradient(circle, #11BA0F, #EFE00A)" }} />
           <div className="absolute inset-[-1px] rounded-full opacity-0 blur-2xl animate-pulse dark:opacity-5 transition-opacity duration-500" style={{ background: "radial-gradient(circle, #80CEFF, #F7B2FD)" }} />
 
-          {/* Show both images, CSS controls visibility — avoids isMounted flicker */}
           <Image
             src="/hero-light.svg"
             width={450}
