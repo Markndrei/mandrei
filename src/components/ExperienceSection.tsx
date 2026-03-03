@@ -17,50 +17,119 @@ interface Experience {
 }
 
 const experiences: Experience[] = [
+  // ── 2023 ──────────────────────────────────────────────────────────────────
+  {
+    period: "2023 — Present",
+    role: "Graphic Designer",
+    company: "Freelance",
+    type: "Freelance",
+    description:
+      "Designing and Building identity for local clients - from crafting brandings to polished and publishable pubmats. I utilize Photoshop for most of my works and can do slight 3D rendering on the side.",
+    skills: ["Branding", "Typography", "Visual Identity", "Photoshop"],
+    accent: "#00FF87",
+    darkAccent: "#00FF87",
+  },
+  {
+    period: "09/2023 — Present",
+    role: "Assistant Art Director",
+    company: "West Esports",
+    type: "Leadership",
+    description:
+      "Designed and delivered promotional and event visuals to support community engagement — reaching 3,300+ followers and engaging 200+ active members. Oversaw junior designers and co-developed annual branding systems, ensuring consistent visual identity and quality control across all digital publications.",
+    skills: ["Art Direction", "Event Visuals", "Branding", "Team Oversight"],
+    accent: "#FF2D78",
+    darkAccent: "#FF2D78",
+  },
+  {
+    period: "09/2023 — Present",
+    role: "Marketing Manager",
+    company: "Commission on Innovation and Tech Empowerment",
+    type: "Leadership",
+    description:
+      "Planned and executed digital marketing campaigns for recruitment and announcements — driving increased social media engagement and clearer brand visibility. Conducted audience and market research to inform content strategy and improve campaign relevance and targeted visual messaging performance.",
+    skills: ["Digital Marketing", "Campaign Strategy", "Market Research", "Content Planning"],
+    accent: "#FF2D78",
+    darkAccent: "#FF2D78",
+  },
+  {
+    period: "10/2023 — 08/2025",
+    role: "Board Member — Public Relations",
+    company: "Cyb Robotics Organization",
+    type: "Campus",
+    description:
+      "Led event documentation for two CYB events under the Public Relations Committee. Color-graded 100+ images for social media and designed branded graphics for accepted applicants and official postings — maintaining visual consistency and professionalism throughout.",
+    skills: ["PR", "Event Documentation", "Color Grading", "Graphic Design"],
+    accent: "#00C2FF",
+    darkAccent: "#00C2FF",
+  },
+  // ── 2024 ──────────────────────────────────────────────────────────────────
   {
     period: "2024 — Present",
     role: "UI/UX Designer & Frontend Dev",
     company: "Freelance",
     type: "Freelance",
-    description: "Designing and building interfaces for local businesses and startups — from discovery and wireframes to polished, deployed products. Specializing in interactive web experiences with Next.js and Tailwind.",
+    description:
+      "Designing and building interfaces for local businesses and startups — from discovery and wireframes to polished, deployed products. Specializing in interactive web experiences with Next.js and Tailwind.",
     skills: ["Next.js", "Figma", "Tailwind CSS", "Client Relations"],
-    accent: "#11BA0F", darkAccent: "#80CEFF",
+    accent: "#00FF87",
+    darkAccent: "#00FF87",
   },
   {
-    period: "2023 — 2024",
-    role: "Lead Designer",
-    company: "WVSU HCI Research Group",
+    period: "08/2024 — Present",
+    role: "Head for Creatives and Multimedia",
+    company: "Cipher Organization",
+    type: "Leadership",
+    description:
+      "Led and executed UI/UX and visual strategy for a web application and organizational publications — maintaining consistent brand alignment and deploying standardized design systems across all digital platforms. Managed and directed a creatives team producing high-quality marketing and publication assets.",
+    skills: ["UI/UX", "Design Systems", "Team Leadership", "Brand Strategy"],
+    accent: "#FF2D78",
+    darkAccent: "#FF2D78",
+  },
+  {
+    period: "07/2024 — 08/2025",
+    role: "Editorial Assistant",
+    company: "ICON Publications",
+    type: "Campus",
+    description:
+      "Enhanced visual storytelling through collaboration with illustrators, photographers, and writers — increasing audience engagement. Produced and curated high-quality photo and video content with consistent color grading. Wrote editorials, columns, and captions meeting editorial standards.",
+    skills: ["Editorial Design", "Color Grading", "Photography", "Writing"],
+    accent: "#00C2FF",
+    darkAccent: "#00C2FF",
+  },
+  // ── 2025 ──────────────────────────────────────────────────────────────────
+  {
+    period: "09/2025 — Present",
+    role: "Layout Artist",
+    company: "WVSU Film Society",
+    type: "Campus",
+    description:
+      "Collaborated with cross-functional teams to ensure cohesive branding and messaging across all organizational materials — maintaining visual consistency across print and digital publications.",
+    skills: ["Layout Design", "Print", "Branding", "Cross-functional Collaboration"],
+    accent: "#00C2FF",
+    darkAccent: "#00C2FF",
+  },
+  {
+    period: "11/2025 — Present",
+    role: "Assistant Public Information Officer",
+    company: "University Senior Curriculum Council",
     type: "Academic",
-    description: "Led UI/UX research and design for IPSYNC — the group's flagship platform. Conducted user interviews, built prototypes in Figma, and collaborated with developers on a human-centered implementation.",
-    skills: ["User Research", "Figma", "Prototyping", "Vue.js"],
-    accent: "#E0790B", darkAccent: "#F7B2FD",
+    description:
+      "Developed branding direction and digital publication assets for official council communications — achieving consistent UI hierarchy and reuse across Facebook and digital platforms. Translated institutional branding into scalable templates, including the successful rollout of the AY 2025–2026 official council uniform.",
+    skills: ["Branding", "Digital Publications", "Templates", "UI Hierarchy"],
+    accent: "#FFE500",
+    darkAccent: "#FFE500",
   },
+  // ── 2026 ──────────────────────────────────────────────────────────────────
   {
-    period: "2022 — 2023",
-    role: "Graphic Designer",
-    company: "University Publications",
-    type: "Campus",
-    description: "Created print and digital assets for university-wide campaigns — event posters, editorial layouts, social media content, and brand materials adhering to institutional guidelines.",
-    skills: ["Illustrator", "Photoshop", "Typography", "Print Design"],
-    accent: "#EFE00A", darkAccent: "#c084fc",
-  },
-  {
-    period: "2022",
-    role: "Frontend Intern",
-    company: "Local Tech Studio",
+    period: "01/2026 — 04/2026",
+    role: "Software Developer Intern",
+    company: "Department of Science and Technology - Central Office",
     type: "Internship",
-    description: "Translated Figma mockups into responsive React components. Worked alongside senior developers on a client-facing dashboard, gaining hands-on experience in component architecture and Git workflows.",
-    skills: ["React", "CSS", "Git", "Responsive Design"],
-    accent: "#11BA0F", darkAccent: "#80CEFF",
-  },
-  {
-    period: "2021 — 2022",
-    role: "Photography Lead",
-    company: "Campus Media Office",
-    type: "Campus",
-    description: "Shot and edited photography for university events, yearbooks, and social channels. Developed a consistent visual language for the institution and mentored junior photographers.",
-    skills: ["Photography", "Lightroom", "Storytelling", "Direction"],
-    accent: "#E0790B", darkAccent: "#F7B2FD",
+    description:
+      "Developed project features, integrated backend and frontend, insert data into the database, general state management through redux, clean architecture for generalizability, user story understanding, unit testing, and knowledge transfers for new interns.",
+    skills: ["ReactJs", "Node", "TailwindCss", "Fullstack", "PostgreSQL", "Clean Architecture", "Redux", "Git Commands", "Knowledge Transfer"],
+    accent: "#BF5FFF",
+    darkAccent: "#BF5FFF",
   },
 ];
 
