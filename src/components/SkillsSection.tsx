@@ -6,18 +6,18 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const skills = [
-  { name: "UI/UX Design",    value: 90, lightColor: "#E0790B", darkColor: "#80CEFF" },
-  { name: "Frontend Dev",    value: 82, lightColor: "#11BA0F", darkColor: "#F7B2FD" },
+  { name: "UI/UX Design",    value: 83, lightColor: "#E0790B", darkColor: "#80CEFF" },
+  { name: "Frontend Dev",    value: 80, lightColor: "#11BA0F", darkColor: "#F7B2FD" },
   { name: "React / Next.js", value: 78, lightColor: "#E0790B", darkColor: "#80CEFF" },
-  { name: "Tailwind CSS",    value: 88, lightColor: "#EFE00A", darkColor: "#c084fc" },
+  { name: "Tailwind CSS",    value: 82, lightColor: "#EFE00A", darkColor: "#c084fc" },
   { name: "Graphic Design",  value: 85, lightColor: "#11BA0F", darkColor: "#F7B2FD" },
-  { name: "Photography",     value: 72, lightColor: "#E0790B", darkColor: "#80CEFF" },
+  { name: "Photography",     value: 76, lightColor: "#E0790B", darkColor: "#80CEFF" },
 ];
 
 const circleSkills = [
-  { name: "Figma",       value: 90, lightColor: "#E0790B", darkColor: "#80CEFF" },
-  { name: "Vue.js",      value: 70, lightColor: "#11BA0F", darkColor: "#F7B2FD" },
-  { name: "Python / ML", value: 60, lightColor: "#EFE00A", darkColor: "#c084fc" },
+  { name: "Figma",       value: 87, lightColor: "#E0790B", darkColor: "#80CEFF" },
+  { name: "Next.js",      value: 80, lightColor: "#11BA0F", darkColor: "#F7B2FD" },
+  { name: "PostgreSQL", value: 55, lightColor: "#EFE00A", darkColor: "#c084fc" },
 ];
 
 /** Watch document.documentElement for class changes and return isDark */
@@ -144,8 +144,8 @@ function GrowthLine() {
   const darkStart  = "#80CEFF"; const darkEnd  = "#F7B2FD";
   const dotColor   = isDark ? darkStart : lightStart;
 
-  const years  = [2016, 2018, 2020, 2022, 2024];
-  const values = [10, 30, 55, 75, 90];
+  const years  = [2016, 2018, 2020, 2022, 2024, 2026];
+  const values = [10, 30, 55, 55, 75, 90];
   const w = 280; const h = 80;
 
   const points = years.map((_, i) => ({
