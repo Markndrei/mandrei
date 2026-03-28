@@ -17,7 +17,7 @@ interface Experience {
 }
 
 const experiences: Experience[] = [
-  // ── 2023 ──────────────────────────────────────────────────────────────────
+  // 2023
   {
     period: "2023 — Present",
     role: "Graphic Designer",
@@ -62,7 +62,7 @@ const experiences: Experience[] = [
     accent: "#00C2FF",
     darkAccent: "#00C2FF",
   },
-  // ── 2024 ──────────────────────────────────────────────────────────────────
+  // 2024
   {
     period: "2024 — Present",
     role: "UI/UX Designer & Frontend Dev",
@@ -96,7 +96,7 @@ const experiences: Experience[] = [
     accent: "#00C2FF",
     darkAccent: "#00C2FF",
   },
-  // ── 2025 ──────────────────────────────────────────────────────────────────
+  // 2025
   {
     period: "09/2025 — Present",
     role: "Layout Artist",
@@ -119,7 +119,7 @@ const experiences: Experience[] = [
     accent: "#FFE500",
     darkAccent: "#FFE500",
   },
-  // ── 2026 ──────────────────────────────────────────────────────────────────
+  // 2026
   {
     period: "01/2026 — 04/2026",
     role: "Software Developer Intern",
@@ -133,7 +133,7 @@ const experiences: Experience[] = [
   },
 ];
 
-// ── Breakpoint hook ────────────────────────────────────────────────────────────
+// Breakpoint hook
 type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 
 function useBreakpoint(): Breakpoint {
@@ -203,7 +203,7 @@ function useIsDark() {
   return isDark;
 }
 
-// ── Shared Modal (bottom-sheet on mobile/tablet, centered on desktop) ──────────
+// Shared Modal (bottom-sheet on mobile/tablet, centered on desktop)
 function Modal({ exp, isDark, onClose, sheet }: {
   exp: Experience; isDark: boolean; onClose: () => void; sheet: boolean;
 }) {
@@ -346,7 +346,7 @@ function Modal({ exp, isDark, onClose, sheet }: {
   );
 }
 
-// ── Mobile/Tablet: Vertical Timeline List ──────────────────────────────────────
+// Mobile: Vertical Timeline List
 function MobileTimeline({ isDark, onCardClick }: { isDark: boolean; onCardClick: (exp: Experience) => void }) {
   return (
     <div className="relative px-6 sm:px-10 py-20">
@@ -444,7 +444,7 @@ function MobileTimeline({ isDark, onCardClick }: { isDark: boolean; onCardClick:
   );
 }
 
-// ── Desktop: GSAP scroll-stack ─────────────────────────────────────────────────
+// Desktop: GSAP scroll-stack 
 function DesktopStack({ isDark, bp, onCardClick }: {
   isDark: boolean; bp: Breakpoint; onCardClick: (exp: Experience) => void;
 }) {
@@ -705,7 +705,7 @@ function DesktopStack({ isDark, bp, onCardClick }: {
   );
 }
 
-// ── Main export ────────────────────────────────────────────────────────────────
+// Main export
 export default function ExperienceSection() {
   const [activeModal, setActiveModal] = useState<Experience | null>(null);
   const isDark = useIsDark();
@@ -719,7 +719,7 @@ export default function ExperienceSection() {
       )}
 
       {sheet ? (
-        // Mobile/tablet: simple vertical timeline, no scroll-pinning
+        // Mobile: simple vertical timeline, no scroll-pinning
         <section id="experience" className="bg-white dark:bg-[#0e0e0e]">
           <MobileTimeline isDark={isDark} onCardClick={setActiveModal} />
         </section>
