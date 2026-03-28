@@ -3,6 +3,8 @@ import "./globals.css";
 import { Poppins } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Navbar } from "@/components/Navbar/Navbar";
+import { Analytics } from "@vercel/analytics/next"
+
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -25,6 +27,7 @@ export default function RootLayout({
       <body className={`${poppins.className} antialiased`}>
         <ThemeProvider attribute="class" enableSystem defaultTheme="system">
           <Navbar />
+          <Analytics />
           {children}
         </ThemeProvider>
       </body>
