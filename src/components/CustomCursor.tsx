@@ -3,65 +3,66 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 export default function CustomCursor() {
-  const cursorRef   = useRef<HTMLDivElement>(null);
-  const followerRef = useRef<HTMLDivElement>(null);
+  const dotRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (window.matchMedia("(pointer: coarse)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    document.body.style.cursor = "none";
+    /* Scoped to a body class rather than `* { cursor: none !important }`, so
+       text fields keep their I-beam and the rule can be lifted on unmount. */
+    document.body.classList.add("cursor-hidden");
 
     const moveCursor = (e: PointerEvent) => {
-      // Only track mouse, not pen/touch
       if (e.pointerType !== "mouse") return;
-      gsap.to(cursorRef.current, {
-        x: e.clientX, y: e.clientY,
-        duration: 0.05, ease: "none",
-      });
-      gsap.to(followerRef.current, {
-        x: e.clientX, y: e.clientY,
-        duration: 0.18, ease: "power2.out",
-      });
+      gsap.to(dotRef.current, { x: e.clientX, y: e.clientY, duration: 0.05, ease: "none" });
+      gsap.to(ringRef.current, { x: e.clientX, y: e.clientY, duration: 0.2, ease: "power2.out" });
     };
 
-    const onEnterInteractive = () => {
-      gsap.to(followerRef.current, { scale: 2.5, opacity: 0.4, duration: 0.3 });
-      gsap.to(cursorRef.current,   { scale: 0, duration: 0.3 });
+    const INTERACTIVE = "a, button, [role='button'], input, textarea, select, [data-cursor-hover]";
+
+    /* Delegated, so elements mounted later — cards, modals, the whole
+       projects table — get the hover state too. The previous version queried
+       once on mount and silently missed everything rendered after. */
+    const onOver = (e: Event) => {
+      const target = e.target as HTMLElement | null;
+      if (!target?.closest?.(INTERACTIVE)) return;
+      gsap.to(ringRef.current, { scale: 2.2, opacity: 0.5, borderColor: "var(--spark)", duration: 0.3 });
+      gsap.to(dotRef.current, { scale: 0, duration: 0.3 });
     };
 
-    const onLeaveInteractive = () => {
-      gsap.to(followerRef.current, { scale: 1, opacity: 1, duration: 0.3 });
-      gsap.to(cursorRef.current,   { scale: 1, duration: 0.3 });
+    const onOut = (e: Event) => {
+      const target = e.target as HTMLElement | null;
+      if (!target?.closest?.(INTERACTIVE)) return;
+      gsap.to(ringRef.current, { scale: 1, opacity: 1, borderColor: "var(--line-2)", duration: 0.3 });
+      gsap.to(dotRef.current, { scale: 1, duration: 0.3 });
     };
 
-    // pointermove fires even during setPointerCapture, mousemove doesn't
     window.addEventListener("pointermove", moveCursor);
-
-    const interactiveEls = document.querySelectorAll("a, button, [data-cursor-hover]");
-    interactiveEls.forEach((el) => {
-      el.addEventListener("mouseenter", onEnterInteractive);
-      el.addEventListener("mouseleave", onLeaveInteractive);
-    });
+    document.addEventListener("mouseover", onOver, true);
+    document.addEventListener("mouseout", onOut, true);
 
     return () => {
       window.removeEventListener("pointermove", moveCursor);
-      document.body.style.cursor = "";
-      interactiveEls.forEach((el) => {
-        el.removeEventListener("mouseenter", onEnterInteractive);
-        el.removeEventListener("mouseleave", onLeaveInteractive);
-      });
+      document.removeEventListener("mouseover", onOver, true);
+      document.removeEventListener("mouseout", onOut, true);
+      document.body.classList.remove("cursor-hidden");
     };
   }, []);
 
   return (
     <>
       <div
-        ref={cursorRef}
-        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#80CEFF] z-[9998] pointer-events-none -translate-x-1/2 -translate-y-1/2 mix-blend-difference hidden md:block"
+        ref={dotRef}
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 z-[9998] hidden h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-spark md:block"
       />
       <div
-        ref={followerRef}
-        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#F7B2FD]/60 z-[9997] pointer-events-none -translate-x-1/2 -translate-y-1/2 hidden md:block"
+        ref={ringRef}
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 z-[9997] hidden h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full border md:block"
+        style={{ borderColor: "var(--line-2)" }}
       />
     </>
   );
