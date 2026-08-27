@@ -25,10 +25,10 @@ export default function ScrollProgress() {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 right-0 h-[2px] z-[9996] bg-transparent">
+    <div className="fixed top-0 left-0 right-0 h-px z-[9996] bg-transparent">
       <div
         ref={barRef}
-        className="h-full origin-left scale-x-0 bg-gradient-to-r from-[#80CEFF] via-[#c084fc] to-[#F7B2FD]"
+        className="h-full origin-left scale-x-0 bg-spark"
       />
     </div>
   );

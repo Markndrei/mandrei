@@ -12,8 +12,8 @@ import ContactSection from "@/components/ContactSection";
 import SideNavigation from "@/components/SideNavigation";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 
-const sections   = ["hero.", "about.", "experience.", "projects.", "skills.", "contact."];
-const sectionIds = ["hero",  "about",  "experience",  "projects",  "skills",  "contact"];
+const sections = ["index", "about", "experience", "projects", "skills", "contact"];
+const sectionIds = ["hero", "about", "experience", "projects", "skills", "contact"];
 
 export default function Home() {
   const [loaded, setLoaded] = useState(false);
@@ -26,7 +26,7 @@ export default function Home() {
       <CustomCursor />
       <ScrollProgress />
 
-      <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50">
+      <div className="fixed top-1/2 right-6 z-50 -translate-y-1/2">
         <SideNavigation
           sections={sections}
           currentSection={currentSection}
@@ -43,10 +43,15 @@ export default function Home() {
         <ContactSection />
       </main>
 
-      <footer className="w-full text-center py-6 border-t border-gray-200 dark:border-white/[0.08]">
-        <p className="text-xs text-gray-400 dark:text-gray-500 tracking-widest">
-          © {new Date().getFullYear()} Mark Encanto. Crafted with care.
-        </p>
+      <footer className="border-t border-line px-6 py-10 sm:px-10 lg:px-16 xl:px-24">
+        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+          <p className="mono text-[0.625rem] tracking-[0.16em] text-t3 uppercase">
+            © {new Date().getFullYear()} mark encanto
+          </p>
+          <p className="mono text-[0.625rem] tracking-[0.16em] text-t3 uppercase">
+            designed &amp; built in iloilo
+          </p>
+        </div>
       </footer>
     </>
   );

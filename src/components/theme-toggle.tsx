@@ -1,19 +1,37 @@
 "use client";
-import { Button } from "./ui/button";
+import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { FaSun, FaMoon } from "react-icons/fa";
+import { Moon, Sun } from "lucide-react";
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  const isDark = resolvedTheme === "dark";
+
   return (
-    <Button
-      variant="outline"
-      size="icon"
-      className="rounded-full"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+    <button
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label={
+        mounted
+          ? `Switch to ${isDark ? "light" : "dark"} mode`
+          : "Switch colour mode"
+      }
+      className="flex h-9 w-9 items-center justify-center border border-line text-t2 transition-colors duration-300 hover:border-line2 hover:text-t1"
     >
-      <FaSun className="absolute h-10 w-10 rotate-0 scale-100 dark:-rotate-90 dark:scale-0"></FaSun>
-      <FaMoon className="absolute h-10 w-10 rotate-0 scale-0 dark:-rotate-90 dark:scale-100"></FaMoon>
-    </Button>
+      {/* Render nothing icon-wise until mounted so the two themes can't
+          disagree during hydration. */}
+      {mounted ? (
+        isDark ? (
+          <Sun size={14} strokeWidth={1.5} />
+        ) : (
+          <Moon size={14} strokeWidth={1.5} />
+        )
+      ) : (
+        <span className="h-3.5 w-3.5" />
+      )}
+    </button>
   );
 }

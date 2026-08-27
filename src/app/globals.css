@@ -3,26 +3,102 @@
 
 @custom-variant dark (&:is(.dark *));
 
-html {
-  scroll-behavior: smooth;
-  overflow-x: hidden;
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK STUDIO — contact-sheet system
+   Near-monochrome surfaces. One spark (#FF3D00) = the red grease-pencil mark
+   an editor uses to circle selects on a contact sheet. Used sparingly:
+   primary action, active indicator, hover, one status. Nothing else.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Surfaces — an elevation ladder, not a blur stack */
+  --bg:       #FAFAF8;
+  --s1:       #FFFFFF;
+  --s2:       #F3F3F0;
+  --s3:       #E9E9E4;
+  --line:     rgba(0, 0, 0, 0.09);
+  --line-2:   rgba(0, 0, 0, 0.18);
+
+  /* Text ramp. --t3 is darkened from #86868E, which only reached 3.5:1 on the
+     page background — it carries small mono labels, so it needs 4.5:1. */
+  --t1:       #16161A;
+  --t2:       #55555C;
+  --t3:       #6F6F78;
+
+  /* The spark. --spark-ink is whatever text colour clears 4.5:1 on the spark
+     fill: white passes on the darker light-mode red, black on the brighter
+     dark-mode red. White on #FF3D00 is only 3.6:1, so it is not an option. */
+  --spark:     #DD2C00;
+  --spark-ink: #FFFFFF;
+  --spark-dim: rgba(221, 44, 0, 0.14);
+
+  /* Atmosphere */
+  --grain-opacity: 0.035;
+  --light-wash:    rgba(0, 0, 0, 0.035);
+
+  --radius: 0.625rem;
+
+  /* shadcn compat — ui/button still consumes these */
+  --background: var(--bg);
+  --foreground: var(--t1);
+  --card: var(--s1);
+  --card-foreground: var(--t1);
+  --popover: var(--s1);
+  --popover-foreground: var(--t1);
+  --primary: var(--t1);
+  --primary-foreground: var(--bg);
+  --secondary: var(--s2);
+  --secondary-foreground: var(--t1);
+  --muted: var(--s2);
+  --muted-foreground: var(--t2);
+  --accent: var(--s2);
+  --accent-foreground: var(--t1);
+  --destructive: var(--spark);
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--spark);
 }
 
-body {
-  font-family: 'Poppins', sans-serif;
-  overflow-x: hidden;
-}
+.dark {
+  --bg:       #0A0A0B;
+  --s1:       #101012;
+  --s2:       #16161A;
+  --s3:       #1D1D22;
+  --line:     rgba(255, 255, 255, 0.07);
+  --line-2:   rgba(255, 255, 255, 0.14);
 
-/* Remove default cursor on desktop for custom cursor */
-@media (pointer: fine) {
-  * { cursor: none !important; }
+  --t1:       #EDEDEF;
+  --t2:       #A0A0A7;
+  --t3:       #7C7C85;
+
+  --spark:     #FF3D00;
+  --spark-ink: #0A0A0B;
+  --spark-dim: rgba(255, 61, 0, 0.16);
+
+  --grain-opacity: 0.055;
+  --light-wash:    rgba(255, 255, 255, 0.04);
 }
 
 @theme inline {
+  --color-bg:     var(--bg);
+  --color-s1:     var(--s1);
+  --color-s2:     var(--s2);
+  --color-s3:     var(--s3);
+  --color-line:   var(--line);
+  --color-line2:  var(--line-2);
+  --color-t1:     var(--t1);
+  --color-t2:     var(--t2);
+  --color-t3:     var(--t3);
+  --color-spark:  var(--spark);
+
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", monospace;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -43,79 +119,249 @@ body {
   --color-ring: var(--ring);
 }
 
-:root {
-  --radius: 0.625rem;
-  --background: #FFFFF4;
-  --foreground: #404040;
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+/* ── Base ────────────────────────────────────────────────────────────────── */
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
-.dark {
-  --background: #0e0e0e;
-  --foreground: #FFFFF4;
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+body {
+  background: var(--bg);
+  color: var(--t1);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
+    border-color: var(--line);
   }
 }
 
-/* Gradient border animation used in project cards */
-@keyframes gradientBorderAnim {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+::selection {
+  background: var(--spark);
+  color: #fff;
 }
 
-/* Hero section grid — replaces inline style that caused hydration mismatch */
+/* Keyboard focus is always visible, and always the spark */
+:focus-visible {
+  outline: 2px solid var(--spark);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Custom cursor: scoped to a body class, never `* !important` ─────────── */
+@media (pointer: fine) {
+  body.cursor-hidden,
+  body.cursor-hidden *:not(input):not(textarea):not(select) {
+    cursor: none;
+  }
+}
+
+/* ── Reduced motion: honoured globally ───────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .grain { display: none; }
+}
+
+/* ═══ Typography ═════════════════════════════════════════════════════════════
+   One family (Poppins), full weight range. Display is 200 — the opposite of
+   the old 900 everywhere. Mono carries every label, number and coordinate.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.display {
+  font-weight: 200;
+  letter-spacing: -0.045em;
+  line-height: 0.86;
+}
+
+.display-tight {
+  font-weight: 200;
+  letter-spacing: -0.05em;
+  line-height: 0.82;
+}
+
+/* Film-rebate metadata: frame numbers, labels, coordinates */
+.meta {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--t3);
+}
+
+.meta-sm {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.5625rem;
+  font-weight: 500;
+  color: var(--t3);
+}
+
+.mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ═══ Atmosphere ═════════════════════════════════════════════════════════════
+   Film grain is what makes #0A0A0B read as stock rather than flat black.
+   Single highest-leverage detail in the system.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grainShift 8s steps(6) infinite;
+  will-change: transform;
+}
+
+@keyframes grainShift {
+  0%   { transform: translate(0, 0); }
+  16%  { transform: translate(-2%, 1%); }
+  33%  { transform: translate(1%, -2%); }
+  50%  { transform: translate(-1%, 2%); }
+  66%  { transform: translate(2%, 1%); }
+  83%  { transform: translate(-2%, -1%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Static directional key light, top-left. Replaces the coloured mesh blobs. */
+.key-light {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    115% 90% at 12% 0%,
+    var(--light-wash) 0%,
+    transparent 62%
+  );
+}
+
+/* Fine measuring grid — kept from the original, retuned to hairline weight */
 .hero-grid {
   background-image:
     linear-gradient(currentColor 1px, transparent 1px),
     linear-gradient(90deg, currentColor 1px, transparent 1px);
-  background-size: 50px 50px;
+  background-size: 64px 64px;
 }
 
-/* About section glow — light: green, dark: blue — pure CSS, no JS theme check */
-.about-glow {
-  background: #11BA0F;
-  opacity: 0.04;
+/* ═══ Contact-sheet devices ══════════════════════════════════════════════════ */
+
+/* A photographic plate: the print sits inside a mount with a rebate below */
+.plate {
+  background: var(--s1);
+  border: 1px solid var(--line);
+  transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
 }
-.dark .about-glow {
-  background: #80CEFF;
-  opacity: 0.07;
+
+.plate-selected,
+.plate:hover {
+  border-color: var(--spark);
+}
+
+/* The grease-pencil circle — an editor marking a select */
+.grease {
+  position: absolute;
+  inset: -6px;
+  border: 1.5px solid var(--spark);
+  border-radius: 62% 38% 55% 45% / 45% 55% 42% 58%;
+  opacity: 0;
+  transform: rotate(-3deg) scale(0.94);
+  transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1);
+  pointer-events: none;
+}
+
+.group:hover .grease,
+.grease-on {
+  opacity: 1;
+  transform: rotate(-1.5deg) scale(1);
+}
+
+/* Corner crop marks — used exactly once, on the hero plate */
+.crop-marks::before,
+.crop-marks::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: var(--line-2);
+  border-style: solid;
+  pointer-events: none;
+}
+.crop-marks::before {
+  top: -7px; left: -7px;
+  border-width: 1px 0 0 1px;
+}
+.crop-marks::after {
+  bottom: -7px; right: -7px;
+  border-width: 0 1px 1px 0;
+}
+
+/* Desaturate the existing illustrations so they live in a monochrome world */
+.plate-image {
+  filter: grayscale(1) contrast(1.06) brightness(0.97);
+  transition: filter 0.5s ease;
+}
+.dark .plate-image {
+  filter: grayscale(1) contrast(1.02) brightness(1.05);
+}
+
+/* Hairline rule that grows on activation — nav, links, list rows */
+.rule-grow {
+  position: relative;
+}
+.rule-grow::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 0;
+  background: var(--spark);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.rule-grow:hover::after,
+.rule-grow[data-active="true"]::after {
+  width: 100%;
+}
+
+/* Text sitting on a spark fill — never hardcode white here, see --spark-ink */
+.on-spark {
+  color: var(--spark-ink);
+}
+
+/* Spark glow, for the primary action only */
+.spark-glow {
+  box-shadow: 0 0 0 0 var(--spark-dim);
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
+}
+.spark-glow:hover {
+  box-shadow: 0 0 34px -4px var(--spark-dim), 0 0 0 1px var(--spark);
+}
+
+/* Thin scrollbar that matches the surfaces */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-2) transparent;
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--line-2);
+  border-radius: 99px;
 }
